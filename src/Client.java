@@ -34,8 +34,8 @@ public class Client {
         try {
             Scanner sc = new Scanner(System.in);
             System.out.println("Please Enter An Integer to Send To Server: ");
-            intInput = sc.nextInt();
-            output.writeInt(intInput);
+            String inputScan = sc.next();
+            output.writeUTF(inputScan);
             //int foobar = input.read();
             //System.out.println("Server sent back: " + foobar);
         } catch (IOException e) {
