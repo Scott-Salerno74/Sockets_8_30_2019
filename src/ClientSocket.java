@@ -3,10 +3,10 @@ import java.io.*;
 import java.util.Scanner;
 
 /**
- * Authors: Scott Salerno, Kurt Mace, Griffin Tripp
- * Project Create a Client Socket to send an integer
+ * Authors: Scott Salerno
+ * Assignment 1
  * Dr. Yarnall
- * 8/30/2019
+ * 9/13/2019
  */
 public class ClientSocket {
     private Socket clientSocket;
@@ -61,4 +61,15 @@ public class ClientSocket {
 
     }
 
+    static class Handle extends Thread{
+        private int portNum;
+        public Handle(int portNum){
+            portNum = this.portNum;
+        }
+        @Override
+        public void run(){
+            //Handle the Connection
+
+        }
+    }
 }
