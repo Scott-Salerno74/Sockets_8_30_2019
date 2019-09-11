@@ -4,7 +4,7 @@ import java.util.Scanner;
 
 /**
  * Authors: Scott Salerno
- * Assignment 1
+ * Assignment#1
  * Dr. Yarnall
  * 9/13/2019
  */
