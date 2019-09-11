@@ -8,15 +8,17 @@ import java.util.Scanner;
  * Dr. Yarnall
  * 9/13/2019
  */
-public class ClientSocket {
+public class Client {
     private Socket clientSocket;
     private DataInputStream input;
     private DataOutputStream output;
+    //Use Port Number 6969
+    private final static int portNumber = 6969;
 
     //Constructor of our client socket
-    private ClientSocket(String ipAdd, int portNum){
+    private Client(String ipAdd, int portNum){
         try {
-            clientSocket = new Socket(ipAdd,portNum);
+            clientSocket = new Socket(ipAdd,portNumber);
             input = new DataInputStream(clientSocket.getInputStream());
             output = new DataOutputStream(clientSocket.getOutputStream());
             System.out.println("Connection Successful");
@@ -56,7 +58,7 @@ public class ClientSocket {
         //Have User Enter the IP Address based on other team
         System.out.println("Enter the Ip Address of the Server:");
         String ipAdd = scanIn.nextLine();
-        ClientSocket client = new ClientSocket(ipAdd, 6666);
+        Client client = new Client(ipAdd, portNumber);
 
 
     }
