@@ -17,42 +17,66 @@ public class Server {
     private final static int portNumber = 6969;
     //create a hashSet in order to hold the dictionary
     private static HashSet<String> dictionary = new HashSet<String>();
+    private String wordsToCheck;
 
     /*
      Start the Connection
      */
     public void start() throws IOException {
-        serverSocket = new ServerSocket(portNumber);
-        System.out.println("Server has Started and is listening to port 6969");
-        while (true) {
+        try {
+            serverSocket = new ServerSocket(portNumber);
+            System.out.println("Server has Started and is listening to port 6969");
             client = serverSocket.accept();
-           DataInputStream input = new DataInputStream(client.getInputStream());
-           DataOutputStream output = new DataOutputStream(client.getOutputStream());
+
+        }
+        catch (IOException e){
+            System.out.println(e);
+        }
+
+        while (true) {
+            DataInputStream input = new DataInputStream(client.getInputStream());
+            DataOutputStream output = new DataOutputStream(client.getOutputStream());
             int messageId = input.read();
             System.out.println(messageId);
             int len = input.readInt();
             System.out.println(len);
             byte[] bytes = input.readNBytes(len);
-            String wordsToCheck = new String(bytes);
+             wordsToCheck = new String(bytes);
             System.out.println(wordsToCheck);
             //System.out.println(clientInput);
-            String returnMessage;
             //While client response does not equal quit
-            while (!wordsToCheck.equalsIgnoreCase("Quit")) {
-                wordsToCheck = input.readUTF();
-                try {
-                  if(dictionary.contains(wordsToCheck)){
-                      System.out.println(wordsToCheck + "Is in Dictionary!");
-                  }
-                } catch (IllegalArgumentException e) {
+            while (!wordsToCheck.equalsIgnoreCase("Quit") && messageId != -1) {
+                    if (dictionary.contains(wordsToCheck)) {
+                        System.out.println(wordsToCheck + " Is Spelled Correctly!");
+                        output.writeByte(2);
+                        output.writeInt(len);
+                        output.writeBytes(wordsToCheck + " Is  Spelled Correctly!");
+                    } else {
+                        System.out.println(wordsToCheck + " Is Misspelled!");
+                        output.writeByte(2);
+                        output.writeInt(len);
+                        output.writeBytes(wordsToCheck + " Is Misspelled!");
+                    }
+                    //Get a New Word To Check
+                    messageId = input.read();
+                    System.out.println(messageId);
+                    len = input.readInt();
+                    System.out.println(len);
+                    bytes = input.readNBytes(len);
+                    wordsToCheck = new String(bytes);
+                    System.out.println(wordsToCheck);
+                } try  {
                     System.out.println("Thank You For Visiting!");
                     input.close();
                     output.close();
                     stop();
                 }
+            catch (IllegalArgumentException e){
+                System.out.println(e);
+
             }
 
-            //Close Input Streams
+
 
         }
 
