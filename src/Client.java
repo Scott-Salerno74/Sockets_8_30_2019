@@ -10,6 +10,7 @@ import java.util.Scanner;
  */
 public class Client {
     private Socket clientSocket;
+    private ServerSocket server;
     private DataInputStream input;
     private DataOutputStream output;
     //Use Port Number 6969
@@ -18,11 +19,10 @@ public class Client {
     //Constructor of our client socket
     private Client(String ipAdd, int portNum) throws IOException {
         try {
-            clientSocket = new Socket(ipAdd,portNumber);
+            clientSocket = new Socket(ipAdd, portNumber);
             input = new DataInputStream(clientSocket.getInputStream());
             output = new DataOutputStream(clientSocket.getOutputStream());
             System.out.println("Connection Successful");
-
 
 
         } catch (IOException e) {
@@ -31,29 +31,36 @@ public class Client {
 
         int intInput;
 
-        Scanner sc = new Scanner(System.in);
-        System.out.println("Please enter a word to check it's spelling: ");
-        System.out.println("Enter Quit to Exit Program");
-        String inputScan = sc.next();
-        while (!inputScan.equalsIgnoreCase("Quit")){
-
+            Scanner sc = new Scanner(System.in);
+            System.out.println("Please enter a word to check it's spelling: ");
+            System.out.println("Enter Quit to Exit Program");
+            String inputScan = sc.next();
             int len = inputScan.length();
-            output.writeByte(0);
-            output.writeInt(len);
-            output.writeBytes(inputScan);
-            inputScan = sc.next();
-        }
-        try {
-            input.close();
-            output.close();
-            clientSocket.close();
-        } catch (IOException e){
-            System.out.print(e);
+            while (!inputScan.equalsIgnoreCase("Quit")) {
+
+                output.writeByte(0);
+                output.writeInt(len);
+                output.writeBytes(inputScan);
+                int messageId = input.read();
+                int serverLen = input.readInt();
+                byte[] responseBytes = input.readNBytes(serverLen);
+                String response = new String(responseBytes);
+                System.out.println("Server Says: " + response);
+                System.out.println("Enter Another Word:");
+                inputScan = sc.next();
+                len = inputScan.length();
+            }
+            try {
+                input.close();
+                output.close();
+                clientSocket.close();
+            } catch (IOException e) {
+                System.out.print(e);
+
+            }
+
 
         }
-
-
-    }
 
     public static void main(String[] args) throws IOException {
         Scanner scanIn = new Scanner(System.in);
