@@ -86,6 +86,8 @@ public class Server {
         client.close();
         serverSocket.close();
     }
+
+
     public static void main(String[] args) throws IOException {
         System.out.println("Server IP Address: " + InetAddress.getLocalHost().getHostAddress());
         System.out.println("Port Number: " + portNumber);
