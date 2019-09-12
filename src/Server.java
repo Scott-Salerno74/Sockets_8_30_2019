@@ -26,26 +26,34 @@ public class Server {
         System.out.println("Server has Started and is listening to port 6969");
         while (true) {
             client = serverSocket.accept();
-            InputStream input = client.getInputStream();
-            InputStreamReader inputReader = new InputStreamReader(input);
-            BufferedReader bufferedReader = new BufferedReader(inputReader);
-            String clientInput = bufferedReader.readLine();
+           DataInputStream input = new DataInputStream(client.getInputStream());
+           DataOutputStream output = new DataOutputStream(client.getOutputStream());
+            int messageId = input.read();
+            System.out.println(messageId);
+            int len = input.readInt();
+            System.out.println(len);
+            byte[] bytes = input.readNBytes(len);
+            String wordsToCheck = new String(bytes);
+            System.out.println(wordsToCheck);
+            //System.out.println(clientInput);
             String returnMessage;
             //While client response does not equal quit
-            while (!clientInput.equals("QUIT")) {
-                clientInput = bufferedReader.readLine();
+            while (!wordsToCheck.equalsIgnoreCase("Quit")) {
+                wordsToCheck = input.readUTF();
                 try {
-
+                  if(dictionary.contains(wordsToCheck)){
+                      System.out.println(wordsToCheck + "Is in Dictionary!");
+                  }
                 } catch (IllegalArgumentException e) {
-
+                    System.out.println("Thank You For Visiting!");
+                    input.close();
+                    output.close();
+                    stop();
                 }
             }
 
             //Close Input Streams
-            input.close();
-            inputReader.close();
-            bufferedReader.close();
-            stop();
+
         }
 
     }
@@ -55,7 +63,6 @@ public class Server {
         serverSocket.close();
     }
     public static void main(String[] args) throws IOException {
-        Server server = new Server();
         System.out.println("Server IP Address: " + InetAddress.getLocalHost().getHostAddress());
         System.out.println("Port Number: " + portNumber);
         File file = new File("/usr/share/dict/words");
@@ -65,6 +72,7 @@ public class Server {
             String sValue = dictFile.nextLine();
             dictionary.add(sValue);
         }
+        Server server = new Server();
         server.start();
     }
 }

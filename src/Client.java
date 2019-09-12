@@ -16,7 +16,7 @@ public class Client {
     private final static int portNumber = 6969;
 
     //Constructor of our client socket
-    private Client(String ipAdd, int portNum){
+    private Client(String ipAdd, int portNum) throws IOException {
         try {
             clientSocket = new Socket(ipAdd,portNumber);
             input = new DataInputStream(clientSocket.getInputStream());
@@ -31,15 +31,17 @@ public class Client {
 
         int intInput;
 
-        try {
-            Scanner sc = new Scanner(System.in);
-            System.out.println("Please Enter An Integer to Send To Server: ");
-            String inputScan = sc.next();
-            output.writeUTF(inputScan);
-            //int foobar = input.read();
-            //System.out.println("Server sent back: " + foobar);
-        } catch (IOException e) {
-            System.out.print(e);
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Please enter a word to check it's spelling: ");
+        System.out.println("Enter Quit to Exit Program");
+        String inputScan = sc.next();
+        while (!inputScan.equalsIgnoreCase("Quit")){
+
+            int len = inputScan.length();
+            output.writeByte(0);
+            output.writeInt(len);
+            output.writeBytes(inputScan);
+            inputScan = sc.next();
         }
         try {
             input.close();
