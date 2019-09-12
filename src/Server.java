@@ -46,35 +46,35 @@ public class Server {
             //System.out.println(clientInput);
             //While client response does not equal quit
             while (!wordsToCheck.equalsIgnoreCase("Quit") && messageId != -1) {
-                    if (dictionary.contains(wordsToCheck)) {
-                        System.out.println(wordsToCheck + " Is Spelled Correctly!");
-                        output.writeByte(2);
-                        output.writeInt(len);
-                        output.writeBytes(wordsToCheck + " Is  Spelled Correctly!");
-                    } else {
-                        System.out.println(wordsToCheck + " Is Misspelled!");
-                        output.writeByte(2);
-                        output.writeInt(len);
-                        output.writeBytes(wordsToCheck + " Is Misspelled!");
-                    }
-                    //Get a New Word To Check
-                    messageId = input.read();
-                    System.out.println(messageId);
-                    len = input.readInt();
-                    System.out.println(len);
-                    bytes = input.readNBytes(len);
-                    wordsToCheck = new String(bytes);
-                    System.out.println(wordsToCheck);
-                } try  {
+                if (dictionary.contains(wordsToCheck)) {
+                    System.out.println(wordsToCheck + " Is Spelled Correctly!");
+                    output.writeByte(2);
+                    output.writeInt(len);
+                    output.writeBytes(wordsToCheck + " Is  Spelled Correctly!");
+                } else {
+                    System.out.println(wordsToCheck + " Is Misspelled!");
+                    output.writeByte(2);
+                    output.writeInt(len);
+                    output.writeBytes(wordsToCheck + " Is Misspelled!");
+                }
+                //Get a New Word To Check
+                messageId = input.read();
+                System.out.println(messageId);
+                len = input.readInt();
+                System.out.println(len);
+                bytes = input.readNBytes(len);
+                wordsToCheck = new String(bytes);
+                System.out.println(wordsToCheck);
+            }
+                try {
                     System.out.println("Thank You For Visiting!");
                     input.close();
                     output.close();
                     stop();
-                }
-            catch (IllegalArgumentException e){
-                System.out.println(e);
+                } catch (IllegalArgumentException e) {
+                    System.out.println(e);
 
-            }
+                }
 
 
 

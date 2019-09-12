@@ -50,17 +50,20 @@ public class Client {
                 inputScan = sc.next();
                 len = inputScan.length();
             }
-            try {
-                input.close();
-                output.close();
-                clientSocket.close();
-            } catch (IOException e) {
-                System.out.print(e);
+                try {
+                    output.writeByte(-1);
+                    output.writeInt(len);
+                    output.writeBytes(inputScan);
+                    input.close();
+                    output.close();
+                    clientSocket.close();
+                } catch (IOException e) {
+                    System.out.print(e);
 
+                }
             }
 
 
-        }
 
     public static void main(String[] args) throws IOException {
         Scanner scanIn = new Scanner(System.in);
