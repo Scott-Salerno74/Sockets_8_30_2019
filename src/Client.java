@@ -37,7 +37,7 @@ public class Client {
             String inputScan = sc.next();
             int len = inputScan.length();
             while (!inputScan.equalsIgnoreCase("Quit")) {
-
+                len = inputScan.length();
                 output.writeByte(0);
                 output.writeInt(len);
                 output.writeBytes(inputScan);
@@ -48,7 +48,6 @@ public class Client {
                 System.out.println("Server Says: " + response);
                 System.out.println("Enter Another Word:");
                 inputScan = sc.next();
-                len = inputScan.length();
             }
                 try {
                     output.writeByte(-1);
@@ -75,15 +74,5 @@ public class Client {
 
     }
 
-    static class Handle extends Thread{
-        private int portNum;
-        public Handle(int portNum){
-            portNum = this.portNum;
-        }
-        @Override
-        public void run(){
-            //Handle the Connection
 
-        }
-    }
 }
