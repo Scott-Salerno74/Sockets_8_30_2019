@@ -50,7 +50,7 @@ public class Client {
                 inputScan = sc.next();
             }
                 try {
-                    output.writeByte(-1);
+                    output.writeByte(1);
                     output.writeInt(len);
                     output.writeBytes(inputScan);
                     input.close();
