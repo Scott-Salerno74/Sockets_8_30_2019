@@ -2,6 +2,12 @@ import java.net.*;
 import java.io.*;
 import java.util.HashSet;
 import java.util.Scanner;
+/**
+ * Authors: Scott Salerno
+ * Assignment#1
+ * Dr. Yarnall
+ * 9/13/2019
+ */
 public class ServerThreaded {
     //private ServerSocket serverSocket;
     private Socket client;
@@ -86,11 +92,12 @@ public class ServerThreaded {
                         }
                     }
                     //handle Quit Message
-                    if (wordsToCheck.equalsIgnoreCase("Quit")) {
+                    if (wordsToCheck.equalsIgnoreCase("Quit") && messageId == 1) {
                         System.out.println("Socket is Closing. Thank You!");
                         input.close();
                         output.close();
                         socket.close();
+                        System.out.println("Socket Has Closed!");
                         break;
                     }
 

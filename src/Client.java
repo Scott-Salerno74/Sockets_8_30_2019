@@ -66,7 +66,7 @@ public class Client {
 
     public static void main(String[] args) throws IOException {
         Scanner scanIn = new Scanner(System.in);
-        //Have User Enter the IP Address based on other team
+        //Have User Enter the IP Address
         System.out.println("Enter the Ip Address of the Server:");
         String ipAdd = scanIn.nextLine();
         Client client = new Client(ipAdd, portNumber);
